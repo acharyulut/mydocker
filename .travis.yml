@@ -6,3 +6,16 @@ before_install:
     - docker build -t webappx-react -f Dockerfile.dev .
 script:
     - docker run -e CI=true webappx-react npm run test
+
+deploy:
+    provider: elasticbeanstalk
+    region: "ap-southeast-2"
+    app: "docker-webapp"
+    env: "DockerWebapp-env"
+    bucket_name: "elasticbeanstalk-ap-southeast-2-629562093681"
+    bucket_path: "docker-webapp"
+    on:
+        branch: master
+    access_key_id: "$AWS_ACCESS_KEY"
+    secret_access_key: 
+        secure: "$AWS_SECRET_KEY"
